@@ -7,20 +7,6 @@ import (
 	"sync"
 )
 
-/*
-TODO:
-1. Put in proper project and remove all particles references
-2. Put on github
-3. Create readme.md with instructions on how to install and run
-4. Mention dependencies
-
-For lesson videos:
-1. Create vector class, one boid as a thread, with borderBounce
-2. Show inter thread communication, by shared memory using multiple threads/boids for average velocity
-3. Use normal mutex to show proximity average
-4. Use Read-write mutex to show other averages
-*/
-
 const (
 	screenWidth, screenHeight = 640, 360
 	boidCount                 = 500
