@@ -5,7 +5,11 @@ Multi-threading examples, including a boids simulation in Go Lang
 The udemy course for this repo can be found at:
 TODO
 
-Please do get in touch if you find any suggestions/improvements!
+This project uses Ebiten, A dead simple 2D game library in Go.  
+https://github.com/hajimehoshi/ebiten  
+Found the library is very easy to install and use. Check out some of the games bundled with the lib.
+
+Please do get in touch if you have any suggestions/improvements!
 
 Follow me on https://twitter.com/cutajarj
 
