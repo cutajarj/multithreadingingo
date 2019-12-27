@@ -32,7 +32,8 @@ func (v1 Vector2D) DivisionV(d float64) Vector2D {
 }
 
 func (v1 Vector2D) limit(lower, upper float64) Vector2D {
-	return Vector2D{math.Min(math.Max(v1.x, lower), upper), math.Min(math.Max(v1.y, lower), upper)}
+	return Vector2D{math.Min(math.Max(v1.x, lower), upper),
+		math.Min(math.Max(v1.y, lower), upper)}
 }
 
 func (v1 Vector2D) Distance(v2 Vector2D) float64 {
