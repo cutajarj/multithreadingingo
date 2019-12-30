@@ -15,7 +15,7 @@ var (
 )
 
 func fileSearch(root string, filename string) {
-	fmt.Println("Searching in " + root)
+	fmt.Println("Searching in", root)
 	files, _ := ioutil.ReadDir(root)
 	for _, file := range files {
 		if strings.Contains(file.Name(), filename) {
@@ -33,10 +33,9 @@ func fileSearch(root string, filename string) {
 
 func main() {
 	waitgroup.Add(1)
-	go fileSearch("C:/tools", "awk.sh")
+	go fileSearch("C:/tools", "README.md")
 	waitgroup.Wait()
-	fmt.Println("*********** RESULTS ***********")
 	for _, file := range matches {
-		fmt.Println(file)
+		fmt.Println("Matched", file)
 	}
 }
