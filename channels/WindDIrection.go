@@ -22,7 +22,7 @@ var (
 	windDist      [8]int
 )
 
-func convertToArray(text string) []string {
+func parseToArray(text string) []string {
 	lines := strings.Split(text, "\n")
 	metarSlice := make([]string, 0, len(lines))
 	metarStr := ""
@@ -51,7 +51,7 @@ func extractWindDirection(metars []string) []string {
 	return winds
 }
 
-func extractWindDistribution(winds []string) {
+func mineWindDistribution(winds []string) {
 	for _, wind := range winds {
 		if variableWind.MatchString(wind) {
 			for i := 0; i < 8; i++ {
@@ -78,13 +78,13 @@ func main() {
 		}
 		text := string(dat)
 		//1. Change to array, each metar report is a separate item in the array
-		metars := convertToArray(text)
+		metarsReports := parseToArray(text)
 
 		//2. Extract wind direction, EGLL 312350Z 07004KT CAVOK 12/09 Q1016 NOSIG= -> 070
-		winds := extractWindDirection(metars)
+		windsDirections := extractWindDirection(metarsReports)
 
 		//3. Assign to N, NE, E, SE, S, SW, W, NW, 070 -> E + 1
-		extractWindDistribution(winds)
+		mineWindDistribution(windsDirections)
 	}
 	elapsed := time.Since(start)
 	fmt.Printf("%v\n", windDist)
