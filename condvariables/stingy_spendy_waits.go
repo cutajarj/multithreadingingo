@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	money          = 10
+	money          = 100
 	lock           = sync.Mutex{}
 	moneyDeposited = sync.NewCond(&lock)
 )
