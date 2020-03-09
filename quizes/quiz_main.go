@@ -5,5 +5,6 @@ func main() {
 	//WaitGroupQuesA()
 	//Count()
 	//StartThreadsA()
-	StartThreadsB()
+	//StartThreadsB()
+	//RunAndWait()
 }

@@ -11,6 +11,17 @@ var (
 	rwLock = sync.RWMutex{}
 )
 
+func callLockTwice() {
+	lock.Lock()
+	lock.Lock()
+	fmt.Print("Hello there")
+}
+
+func RunAndWait() {
+	go callLockTwice()
+	time.Sleep(10 * time.Second)
+}
+
 func oneTwoThreeA() {
 	lock.Lock()
 	for i := 1; i <= 3; i++ {
