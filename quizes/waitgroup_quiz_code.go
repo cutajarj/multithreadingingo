@@ -5,13 +5,13 @@ import (
 	"sync"
 )
 
-func waitGroupQuesA() {
+func WaitGroupQuesA() {
 	wg := sync.WaitGroup{}
 	wg.Wait()
 	fmt.Println("Done")
 }
 
-func count() {
+func Count() {
 	wg := sync.WaitGroup{}
 	x := 0
 	wg.Add(5)
@@ -27,10 +27,4 @@ func increment(x *int, wg *sync.WaitGroup) {
 		*x += 1
 	}
 	wg.Done()
-}
-
-//Uncomment the functions below to run them.
-func main() {
-	//waitGroupQuesA()
-	//count()
 }
