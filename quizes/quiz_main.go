@@ -7,4 +7,5 @@ func main() {
 	//StartThreadsA()
 	//StartThreadsB()
 	//RunAndWait()
+	//RunMainThread()
 }
