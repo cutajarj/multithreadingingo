@@ -8,4 +8,6 @@ func main() {
 	//StartThreadsB()
 	//RunAndWait()
 	//RunMainThread()
+	//RunProducer()
+	//BuffSender()
 }
