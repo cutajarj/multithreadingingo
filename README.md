@@ -3,7 +3,7 @@
 Multi-threading examples, including a boids simulation in Go Lang
 
 The udemy course for this repo can be found at:
-TODO
+https://www.udemy.com/course/multithreading-in-go-lang/?referralCode=D20A3CBD00E90DB2ABF8
 
 This source code has examples of creating threads and inter process communication (IPC) via
 memory sharing and message passing (such as channels). It also has examples of thread 
