@@ -28,10 +28,10 @@ type Train struct {
 	front int
 }
 
-func lockIntersectionsInDistance(id, pos int, crossings []*Crossing) {
+func lockIntersectionsInDistance(id, front int, back int, crossings []*Crossing) {
 	var intersectionsToLock []*Intersection
 	for _, crossing := range crossings {
-		if pos > crossing.position-trainLength-1 && crossing.intersection.lockedBy != id {
+		if front+trainLength > crossing.position && back < crossing.position && crossing.intersection.lockedBy != id {
 			intersectionsToLock = append(intersectionsToLock, crossing.intersection)
 		}
 	}
@@ -55,10 +55,12 @@ func moveTrain(id int, distance int, crossings []*Crossing) {
 		train.back += 1
 		train.front += 1
 		for _, crossing := range crossings {
-			if train.front == crossing.position-1 {
-				lockIntersectionsInDistance(id, train.front, crossings)
+			if train.front == crossing.position {
+				//crossing.intersection.mutex.Lock()
+				//crossing.intersection.lockedBy = id
+				lockIntersectionsInDistance(id, train.front, train.back, crossings)
 			}
-			if train.back == crossing.position+1 {
+			if train.back == crossing.position {
 				crossing.intersection.mutex.Unlock()
 				crossing.intersection.lockedBy = -1
 			}
