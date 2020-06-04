@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	green = color.RGBA{10, 95, 30, 255}
-	red   = color.RGBA{205, 50, 50, 255}
+	green = color.RGBA{10, 125, 50, 255}
+	red   = color.RGBA{225, 50, 50, 255}
 )
 
 func DrawTracks(screen *ebiten.Image) {
@@ -21,8 +21,8 @@ func DrawTracks(screen *ebiten.Image) {
 }
 
 func DrawXTrain(screen *ebiten.Image, id int, dir int, start int, yPos int) {
-	s := start + (dir * allTrains[id].back)
-	e := start + (dir * allTrains[id].front)
+	s := start + (dir * trains[id].back)
+	e := start + (dir * trains[id].front)
 	for i := math.Min(float64(s), float64(e)); i <= math.Max(float64(s), float64(e)); i++ {
 		screen.Set(int(i)-dir, yPos-1, red)
 		screen.Set(int(i), yPos, red)
@@ -31,8 +31,8 @@ func DrawXTrain(screen *ebiten.Image, id int, dir int, start int, yPos int) {
 }
 
 func DrawYTrain(screen *ebiten.Image, id int, dir int, start int, xPos int) {
-	s := start + (dir * allTrains[id].back)
-	e := start + (dir * allTrains[id].front)
+	s := start + (dir * trains[id].back)
+	e := start + (dir * trains[id].front)
 	for i := math.Min(float64(s), float64(e)); i <= math.Max(float64(s), float64(e)); i++ {
 		screen.Set(xPos-1, int(i)-dir, red)
 		screen.Set(xPos, int(i), red)

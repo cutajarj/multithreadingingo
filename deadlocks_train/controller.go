@@ -6,11 +6,6 @@ import (
 	"sync"
 )
 
-var (
-	allTrains          [4]*Train
-	it1, it2, it3, it4 = sync.Mutex{}, sync.Mutex{}, sync.Mutex{}, sync.Mutex{}
-)
-
 const trainLength = 70
 
 func update(screen *ebiten.Image) error {
@@ -26,24 +21,20 @@ func update(screen *ebiten.Image) error {
 
 func main() {
 	for i := 0; i < 4; i++ {
-		allTrains[i] = &Train{id: i, back: 0, front: trainLength}
+		trains[i] = &Train{id: i, back: 0, front: trainLength}
 	}
 
-	go moveTrain(300,
-		[]*Crossing{{position: 125, intersection: &it1}, {position: 175, intersection: &it2}},
-		allTrains[0])
+	for i := 0; i < 4; i++ {
+		intersections[i] = &Intersection{id: i, mutex: sync.Mutex{}, lockedBy: -1}
+	}
 
-	go moveTrain(300,
-		[]*Crossing{{position: 125, intersection: &it2}, {position: 175, intersection: &it3}},
-		allTrains[1])
+	go moveTrain(0, 300, []*Crossing{{position: 125, intersection: intersections[0]}, {position: 175, intersection: intersections[1]}})
 
-	go moveTrain(300,
-		[]*Crossing{{position: 125, intersection: &it3}, {position: 175, intersection: &it4}},
-		allTrains[2])
+	go moveTrain(1, 300, []*Crossing{{position: 125, intersection: intersections[1]}, {position: 175, intersection: intersections[2]}})
 
-	go moveTrain(300,
-		[]*Crossing{{position: 125, intersection: &it4}, {position: 175, intersection: &it1}},
-		allTrains[3])
+	go moveTrain(2, 300, []*Crossing{{position: 125, intersection: intersections[2]}, {position: 175, intersection: intersections[3]}})
+
+	go moveTrain(3, 300, []*Crossing{{position: 125, intersection: intersections[3]}, {position: 175, intersection: intersections[0]}})
 
 	if err := ebiten.Run(update, 320, 320, 2, "Trains in a box"); err != nil {
 		log.Fatal(err)

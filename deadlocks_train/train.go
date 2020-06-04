@@ -1,14 +1,24 @@
 package main
 
 import (
-	"fmt"
 	"sync"
 	"time"
 )
 
+var (
+	trains        [4]*Train
+	intersections [4]*Intersection
+)
+
+type Intersection struct {
+	id       int
+	mutex    sync.Mutex
+	lockedBy int
+}
+
 type Crossing struct {
 	position     int
-	intersection *sync.Mutex
+	intersection *Intersection
 }
 
 type Train struct {
@@ -17,20 +27,20 @@ type Train struct {
 	front int
 }
 
-func moveTrain(distance int, crossings []*Crossing, train *Train) {
+func moveTrain(id int, distance int, crossings []*Crossing) {
 	//time.Sleep(time.Duration(rand.Intn(3000)) * time.Millisecond)
+	train := trains[id]
 	for train.front < distance {
-		fmt.Println("Train", train.id, "at position", train.front)
 		train.back += 1
 		train.front += 1
 		for _, crossing := range crossings {
 			if train.front == crossing.position-1 {
-				fmt.Println("Train", train.id, "locking")
-				crossing.intersection.Lock()
+				crossing.intersection.mutex.Lock()
+				crossing.intersection.lockedBy = id
 			}
 			if train.back == crossing.position+1 {
-				fmt.Println("Train", train.id, "Unlocking")
-				crossing.intersection.Unlock()
+				crossing.intersection.mutex.Unlock()
+				crossing.intersection.lockedBy = -1
 			}
 		}
 		time.Sleep(30 * time.Millisecond)
