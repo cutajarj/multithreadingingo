@@ -18,6 +18,7 @@ type Train struct {
 }
 
 func moveTrain(distance int, crossings []*Crossing, train *Train) {
+	//time.Sleep(time.Duration(rand.Intn(3000)) * time.Millisecond)
 	for train.front < distance {
 		fmt.Println("Train", train.id, "at position", train.front)
 		train.back += 1
