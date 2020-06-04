@@ -11,10 +11,8 @@ const trainLength = 70
 func update(screen *ebiten.Image) error {
 	if !ebiten.IsDrawingSkipped() {
 		DrawTracks(screen)
-		DrawXTrain(screen, 0, 1, 10, 135)
-		DrawYTrain(screen, 1, 1, 10, 185)
-		DrawXTrain(screen, 2, -1, 310, 185)
-		DrawYTrain(screen, 3, -1, 310, 135)
+		DrawIntersections(screen)
+		DrawTrains(screen)
 	}
 	return nil
 }
@@ -36,7 +34,7 @@ func main() {
 
 	go moveTrain(3, 300, []*Crossing{{position: 125, intersection: intersections[3]}, {position: 175, intersection: intersections[0]}})
 
-	if err := ebiten.Run(update, 320, 320, 2, "Trains in a box"); err != nil {
+	if err := ebiten.Run(update, 320, 320, 3, "Trains in a box"); err != nil {
 		log.Fatal(err)
 	}
 }
