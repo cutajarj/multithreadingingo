@@ -1,7 +1,7 @@
 package main
 
 import (
-	. "github.com/cutajarj/multithreadingingo/deadlocks_train/arbitrator"
+	. "github.com/cutajarj/multithreadingingo/deadlocks_train/common"
 	"github.com/hajimehoshi/ebiten"
 	"image/color"
 	"math"
@@ -19,10 +19,10 @@ var (
 )
 
 func DrawIntersections(screen *ebiten.Image) {
-	drawIntersection(screen, Intersections[0], 145, 145)
-	drawIntersection(screen, Intersections[1], 175, 145)
-	drawIntersection(screen, Intersections[2], 175, 175)
-	drawIntersection(screen, Intersections[3], 145, 175)
+	drawIntersection(screen, intersections[0], 145, 145)
+	drawIntersection(screen, intersections[1], 175, 145)
+	drawIntersection(screen, intersections[2], 175, 175)
+	drawIntersection(screen, intersections[3], 145, 175)
 }
 
 func DrawTracks(screen *ebiten.Image) {
@@ -54,8 +54,8 @@ func drawIntersection(screen *ebiten.Image, intersection *Intersection, x int, y
 }
 
 func drawXTrain(screen *ebiten.Image, id int, dir int, start int, yPos int) {
-	s := start + (dir * (Trains[id].Front - Trains[id].TrainLength))
-	e := start + (dir * Trains[id].Front)
+	s := start + (dir * (trains[id].Front - trains[id].TrainLength))
+	e := start + (dir * trains[id].Front)
 	for i := math.Min(float64(s), float64(e)); i <= math.Max(float64(s), float64(e)); i++ {
 		screen.Set(int(i)-dir, yPos-1, colours[id])
 		screen.Set(int(i), yPos, colours[id])
@@ -64,8 +64,8 @@ func drawXTrain(screen *ebiten.Image, id int, dir int, start int, yPos int) {
 }
 
 func drawYTrain(screen *ebiten.Image, id int, dir int, start int, xPos int) {
-	s := start + (dir * (Trains[id].Front - Trains[id].TrainLength))
-	e := start + (dir * Trains[id].Front)
+	s := start + (dir * (trains[id].Front - trains[id].TrainLength))
+	e := start + (dir * trains[id].Front)
 	for i := math.Min(float64(s), float64(e)); i <= math.Max(float64(s), float64(e)); i++ {
 		screen.Set(xPos-1, int(i)-dir, colours[id])
 		screen.Set(xPos, int(i), colours[id])

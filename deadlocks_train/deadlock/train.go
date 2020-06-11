@@ -1,41 +1,18 @@
 package deadlock
 
 import (
-	"sync"
+	. "github.com/cutajarj/multithreadingingo/deadlocks_train/common"
 	"time"
 )
 
-var (
-	Trains        [4]*Train
-	Intersections [4]*Intersection
-)
-
-type Intersection struct {
-	Id       int
-	Mutex    sync.Mutex
-	LockedBy int
-}
-
-type Crossing struct {
-	Position     int
-	Intersection *Intersection
-}
-
-type Train struct {
-	Id          int
-	TrainLength int
-	Front       int
-}
-
-func MoveTrain(id int, distance int, crossings []*Crossing) {
+func MoveTrain(train *Train, distance int, crossings []*Crossing) {
 	//time.Sleep(time.Duration(rand.Intn(3000)) * time.Millisecond)
-	train := Trains[id]
 	for train.Front < distance {
 		train.Front += 1
 		for _, crossing := range crossings {
 			if train.Front == crossing.Position {
 				crossing.Intersection.Mutex.Lock()
-				crossing.Intersection.LockedBy = id
+				crossing.Intersection.LockedBy = train.Id
 			}
 			back := train.Front - train.TrainLength
 			if back == crossing.Position {

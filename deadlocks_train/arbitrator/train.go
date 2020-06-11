@@ -1,33 +1,15 @@
 package arbitrator
 
 import (
+	. "github.com/cutajarj/multithreadingingo/deadlocks_train/common"
 	"sync"
 	"time"
 )
 
 var (
-	Trains        [4]*Train
-	Intersections [4]*Intersection
-	Waiter        = sync.Mutex{}
-	Cond          = sync.NewCond(&Waiter)
+	Waiter = sync.Mutex{}
+	Cond   = sync.NewCond(&Waiter)
 )
-
-type Intersection struct {
-	Id       int
-	Mutex    sync.Mutex
-	LockedBy int
-}
-
-type Crossing struct {
-	Position     int
-	Intersection *Intersection
-}
-
-type Train struct {
-	Id          int
-	TrainLength int
-	Front       int
-}
 
 func allFree(intersectionsToLock []*Intersection) bool {
 	for _, it := range intersectionsToLock {
@@ -58,14 +40,13 @@ func lockIntersectionsInDistance(id, reserveStart int, reserveEnd int, crossings
 	Waiter.Unlock()
 }
 
-func MoveTrain(id int, distance int, crossings []*Crossing) {
+func MoveTrain(train *Train, distance int, crossings []*Crossing) {
 	//time.Sleep(time.Duration(rand.Intn(3000)) * time.Millisecond)
-	train := Trains[id]
 	for train.Front < distance {
 		train.Front += 1
 		for _, crossing := range crossings {
 			if train.Front == crossing.Position {
-				lockIntersectionsInDistance(id, crossing.Position, crossing.Position+train.TrainLength, crossings)
+				lockIntersectionsInDistance(train.Id, crossing.Position, crossing.Position+train.TrainLength, crossings)
 			}
 			back := train.Front - train.TrainLength
 			if back == crossing.Position {
