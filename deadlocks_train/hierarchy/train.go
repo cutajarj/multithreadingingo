@@ -28,7 +28,6 @@ func lockIntersectionsInDistance(id, reserveStart int, reserveEnd int, crossings
 }
 
 func MoveTrain(train *Train, distance int, crossings []*Crossing) {
-	//time.Sleep(time.Duration(rand.Intn(3000)) * time.Millisecond)
 	for train.Front < distance {
 		train.Front += 1
 		for _, crossing := range crossings {
