@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	Waiter = sync.Mutex{}
-	Cond   = sync.NewCond(&Waiter)
+	controller = sync.Mutex{}
+	cond       = sync.NewCond(&controller)
 )
 
 func allFree(intersectionsToLock []*Intersection) bool {
@@ -29,15 +29,15 @@ func lockIntersectionsInDistance(id, reserveStart int, reserveEnd int, crossings
 			intersectionsToLock = append(intersectionsToLock, crossing.Intersection)
 		}
 	}
-	Waiter.Lock()
+	controller.Lock()
 	for !allFree(intersectionsToLock) {
-		Cond.Wait()
+		cond.Wait()
 	}
 	for _, it := range intersectionsToLock {
 		it.LockedBy = id
 		time.Sleep(10 * time.Millisecond)
 	}
-	Waiter.Unlock()
+	controller.Unlock()
 }
 
 func MoveTrain(train *Train, distance int, crossings []*Crossing) {
@@ -50,10 +50,10 @@ func MoveTrain(train *Train, distance int, crossings []*Crossing) {
 			}
 			back := train.Front - train.TrainLength
 			if back == crossing.Position {
-				Waiter.Lock()
+				controller.Lock()
 				crossing.Intersection.LockedBy = -1
-				Cond.Broadcast()
-				Waiter.Unlock()
+				cond.Broadcast()
+				controller.Unlock()
 			}
 		}
 		time.Sleep(30 * time.Millisecond)
