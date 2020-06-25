@@ -6,12 +6,10 @@ import (
 	"time"
 )
 
-func lockIntersectionsInDistance(id, reserveStart int, reserveEnd int, crossings []*Crossing) {
+func lockIntersectionsInDistance(id, reserveStart, reserveEnd int, crossings []*Crossing) {
 	var intersectionsToLock []*Intersection
 	for _, crossing := range crossings {
-		if reserveEnd >= crossing.Position &&
-			reserveStart <= crossing.Position &&
-			crossing.Intersection.LockedBy != id {
+		if reserveEnd >= crossing.Position && reserveStart <= crossing.Position && crossing.Intersection.LockedBy != id {
 			intersectionsToLock = append(intersectionsToLock, crossing.Intersection)
 		}
 	}
