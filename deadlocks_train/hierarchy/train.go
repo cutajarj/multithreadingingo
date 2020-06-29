@@ -34,8 +34,8 @@ func MoveTrain(train *Train, distance int, crossings []*Crossing) {
 			}
 			back := train.Front - train.TrainLength
 			if back == crossing.Position {
-				crossing.Intersection.Mutex.Unlock()
 				crossing.Intersection.LockedBy = -1
+				crossing.Intersection.Mutex.Unlock()
 			}
 		}
 		time.Sleep(30 * time.Millisecond)
