@@ -13,6 +13,17 @@ This project uses Ebiten, A dead simple 2D game library in Go for the boids exam
 https://github.com/hajimehoshi/ebiten  
 Found the library is very easy to install and use. Check out some of the games bundled with the lib.
 
+To run any of the code examples/scenarios do the following:
+```
+cd <goprojects>/multithreadingingo
+go build ./...
+go run ./<example>
+```
+such as:
+```
+go run ./boids
+```
+
 Please do get in touch if you have any suggestions/improvements!
 
 Follow me on https://twitter.com/cutajarj
