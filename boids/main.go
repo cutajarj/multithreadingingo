@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/v2"
 	"image/color"
 	"log"
 	"sync"
@@ -21,16 +21,23 @@ var (
 	rWlock  = sync.RWMutex{}
 )
 
-func update(screen *ebiten.Image) error {
-	if !ebiten.IsDrawingSkipped() {
-		for _, boid := range boids {
-			screen.Set(int(boid.position.x+1), int(boid.position.y), green)
-			screen.Set(int(boid.position.x-1), int(boid.position.y), green)
-			screen.Set(int(boid.position.x), int(boid.position.y-1), green)
-			screen.Set(int(boid.position.x), int(boid.position.y+1), green)
-		}
-	}
+type Game struct{}
+
+func (g *Game) Update() error {
 	return nil
+}
+
+func (g *Game) Draw(screen *ebiten.Image) {
+	for _, boid := range boids {
+		screen.Set(int(boid.position.x+1), int(boid.position.y), green)
+		screen.Set(int(boid.position.x-1), int(boid.position.y), green)
+		screen.Set(int(boid.position.x), int(boid.position.y-1), green)
+		screen.Set(int(boid.position.x), int(boid.position.y+1), green)
+	}
+}
+
+func (g *Game) Layout(_, _ int) (w, h int) {
+	return screenWidth, screenHeight
 }
 
 func main() {
@@ -43,7 +50,9 @@ func main() {
 	for i := 0; i < boidCount; i++ {
 		createBoid(i)
 	}
-	if err := ebiten.Run(update, screenWidth, screenHeight, 2, "Boids in a box"); err != nil {
+	ebiten.SetWindowSize(screenWidth*2, screenHeight*2)
+	ebiten.SetWindowTitle("Boids in a box")
+	if err := ebiten.RunGame(&Game{}); err != nil {
 		log.Fatal(err)
 	}
 }

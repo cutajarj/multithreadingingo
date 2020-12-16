@@ -2,7 +2,7 @@ package main
 
 import (
 	. "github.com/cutajarj/multithreadingingo/deadlocks_train/common"
-	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/v2"
 	"image/color"
 	"math"
 )

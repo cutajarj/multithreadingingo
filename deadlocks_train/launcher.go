@@ -3,7 +3,7 @@ package main
 import (
 	. "github.com/cutajarj/multithreadingingo/deadlocks_train/common"
 	. "github.com/cutajarj/multithreadingingo/deadlocks_train/deadlock"
-	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/v2"
 	"log"
 	"sync"
 )
@@ -15,13 +15,20 @@ var (
 
 const trainLength = 70
 
-func update(screen *ebiten.Image) error {
-	if !ebiten.IsDrawingSkipped() {
-		DrawTracks(screen)
-		DrawIntersections(screen)
-		DrawTrains(screen)
-	}
+type Game struct{}
+
+func (g *Game) Update() error {
 	return nil
+}
+
+func (g *Game) Draw(screen *ebiten.Image) {
+	DrawTracks(screen)
+	DrawIntersections(screen)
+	DrawTrains(screen)
+}
+
+func (g *Game) Layout(_, _ int) (w, h int) {
+	return 320, 320
 }
 
 func main() {
@@ -45,7 +52,9 @@ func main() {
 	go MoveTrain(trains[3], 300, []*Crossing{{Position: 125, Intersection: intersections[3]},
 		{Position: 175, Intersection: intersections[0]}})
 
-	if err := ebiten.Run(update, 320, 320, 3, "Trains in a box"); err != nil {
+	ebiten.SetWindowSize(320*3, 320*3)
+	ebiten.SetWindowTitle("Trains in a box")
+	if err := ebiten.RunGame(&Game{}); err != nil {
 		log.Fatal(err)
 	}
 }
