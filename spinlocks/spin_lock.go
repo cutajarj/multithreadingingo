@@ -6,19 +6,19 @@ import (
 	"sync/atomic"
 )
 
-type spinLock int32
+type SpinLock int32
 
-func (sl *spinLock) Lock() {
-	for !atomic.CompareAndSwapInt32((*int32)(sl), 0, 1) {
+func (s *SpinLock) Lock() {
+	for !atomic.CompareAndSwapInt32((*int32)(s), 0, 1) {
 		runtime.Gosched()
 	}
 }
 
-func (sl *spinLock) Unlock() {
-	atomic.StoreInt32((*int32)(sl), 0)
+func (s *SpinLock) Unlock() {
+	atomic.StoreInt32((*int32)(s), 0)
 }
 
 func NewSpinLock() sync.Locker {
-	var lock spinLock
+	var lock SpinLock
 	return &lock
 }
