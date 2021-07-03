@@ -39,28 +39,28 @@ func perform_movements(ledger *[totalAccounts]int32, locks *[totalAccounts]sync.
 }
 
 func main() {
-	println("Total accounts:", totalAccounts, "total threads:", threads, "using NewSpinLock()")
+	println("Total accounts:", totalAccounts, " total threads:", threads, "using SpinLocks")
 	var ledger [totalAccounts]int32
-	var spinLocks [totalAccounts]sync.Locker
+	var locks [totalAccounts]sync.Locker
 	var totalTrans int64
 	for i := 0; i < totalAccounts; i++ {
 		ledger[i] = initialMoney
-		spinLocks[i] = NewSpinLock() //&sync.Mutex{}//NewSpinLock()
+		locks[i] = NewSpinLock() //&sync.Mutex{}
 	}
 	for i := 0; i < threads; i++ {
-		go perform_movements(&ledger, &spinLocks, &totalTrans)
+		go perform_movements(&ledger, &locks, &totalTrans)
 	}
 	for {
-		time.Sleep(60000 * time.Millisecond)
+		time.Sleep(2000 * time.Millisecond)
 		var sum int32
 		for i := 0; i < totalAccounts; i++ {
-			spinLocks[i].Lock()
+			locks[i].Lock()
 		}
 		for i := 0; i < totalAccounts; i++ {
 			sum += ledger[i]
 		}
 		for i := 0; i < totalAccounts; i++ {
-			spinLocks[i].Unlock()
+			locks[i].Unlock()
 		}
 		println(totalTrans, sum)
 	}
